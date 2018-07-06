@@ -27,6 +27,7 @@
 //! ```
 //! #[macro_use]
 //! extern crate macro_utils;
+//! # fn main() {}
 //! ```
 //!
 //! # Examples
