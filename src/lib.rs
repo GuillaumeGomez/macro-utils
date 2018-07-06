@@ -22,6 +22,13 @@
 
 //! Some useful and funny macros.
 //!
+//! To be able to use it, import is as follows:
+//!
+//! ```
+//! #[macro_use]
+//! extern crate macro_utils;
+//! ```
+//!
 //! # Examples
 //!
 //! ```
