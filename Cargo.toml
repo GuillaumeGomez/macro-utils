@@ -8,7 +8,7 @@ repository = "https://github.com/GuillaumeGomez/macro_utils"
 homepage = "https://github.com/GuillaumeGomez/macro_utils"
 documentation = "https://docs.rs/macro-utils"
 description = """
-Some macros to make code writing more elegant.
+Some macros to make code writing more elegant and funny.
 """
 
 [badges]
