@@ -61,33 +61,48 @@
 ///     x & 1 == 1 => println!("it is odd"),
 /// }
 /// ```
+///
+/// Want to use `if let` conditions too? Here you go:
+///
+/// ```
+/// # #[macro_use] extern crate macro_utils;
+/// let v = 12;
+/// let y = if_match! {
+///     let 0 = 1 => 0,
+///     v < 1 => 1,
+///     v > 10 => 10,
+///     let 0 = 1 => 0,
+///     else => v
+/// };
+/// assert_eq!(y, 10);
+/// ```
 #[macro_export]
 macro_rules! if_match {
-    ($cond:expr => $then:expr $(,)*) => {
-        if $cond {
+    ($(let $expr:pat =)* $cond:expr => $then:expr $(,)*) => {
+        if $(let $expr =)* $cond {
             $then
         }
     };
-    ($cond:expr => $then:expr, else => $elsethen:expr $(,)*) => {
-        if $cond {
+    ($(let $expr:pat =)* $cond:expr => $then:expr, else => $elsethen:expr $(,)*) => {
+        if $(let $expr =)* $cond {
             $then
         } else {
             $elsethen
         }
     };
-    ($cond:expr => $then:expr, $($more:expr => $more_then:expr,)* else => $elsethen:expr $(,)*) => {
-        if $cond {
+    ($(let $expr:pat =)* $cond:expr => $then:expr, $($(let $expr2:pat =)* $else_cond:expr => $else_then:expr,)* else => $else_expr:expr $(,)*) => {
+        if $(let $expr =)* $cond {
             $then
-        } $(else if $more {
-            $more_then
+        } $(else if $(let $expr2 =)* $else_cond {
+            $else_then
         })* else {
-            $elsethen
+            $else_expr
         }
     };
-    ($cond:expr => $then:expr, $($more:expr => $more_then:expr $(,)* )*) => {
-        if $cond {
+    ($(let $expr:pat =)* $cond:expr => $then:expr, $($(let $expr2:pat =)* $more:expr => $more_then:expr $(,)* )*) => {
+        if $(let $expr =)* $cond {
             $then
-        } $(else if $more {
+        } $(else if $(let $expr2 =)* $more {
             $more_then
         })*
     };
@@ -122,6 +137,46 @@ fn if_match() {
     assert_eq!(check_complete(1), 1);
     assert_eq!(check_complete(0), 1);
     assert_eq!(check_complete(12), 10);
+}
+
+#[test]
+fn let_match() {
+    let v = 12;
+    let y = if_match! {
+        let 0 = 1 => 0,
+        v < 1 => 1,
+        v > 10 => 10,
+        let 0 = 1 => 0,
+        else => v
+    };
+    assert_eq!(y, 10);
+
+    let y = if_match! {
+        v < 1 => 1,
+        v > 10 => 10,
+        let 0 = 1 => 0,
+        else => v,
+    };
+    assert_eq!(y, 10);
+
+    let mut z = 0;
+    if_match! {
+        v < 1 => z = 1,
+        v > 10 => z = 10,
+        let 0 = 1 => z = 0,
+    }
+    assert_eq!(z, 10);
+
+    if_match! {
+        v < 1 => z = 10,
+        v > 10 => z = 2,
+        let 0 = 1 => z = 0
+    }
+    assert_eq!(z, 2);
+
+    if_match! {
+        let 0 = 1 => println!("1"),
+    }
 }
 
 #[test]
