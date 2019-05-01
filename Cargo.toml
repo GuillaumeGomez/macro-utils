@@ -1,6 +1,6 @@
 [package]
 name = "macro-utils"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Guillaume Gomez <guillaume1.gomez@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -13,3 +13,6 @@ Some macros to make code writing more elegant and funny.
 
 [badges]
 travis-ci = { repository = "guillaumegomez/macro_utils" }
+
+[dev-dependencies]
+doc-comment = "0.3"

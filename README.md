@@ -8,7 +8,7 @@ Some macros to help writing better code or just having fun.
 
 To use it in your project, just add the following lines:
 
-```rust
+```rust,ignore
 #[macro_use]
 extern crate macro_utils;
 ```
