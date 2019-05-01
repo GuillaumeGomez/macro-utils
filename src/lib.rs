@@ -51,6 +51,13 @@
 //! let x = tern_haskell! { if (y & 1 == 0) then { "it's even" } else { "it's odd" } };
 //! ```
 
+#[cfg(test)]
+#[macro_use]
+extern crate doc_comment;
+
+#[cfg(test)]
+doctest!("../README.md");
+
 #[macro_use]
 mod if_match;
 #[macro_use]
